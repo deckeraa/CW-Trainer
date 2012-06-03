@@ -26,9 +26,9 @@ private:
   CWSoundMachine* m_cw;
   QTimer *m_timer;
   QButtonGroup *m_lettergroup;
-  QMultiLineEdit* m_cwtext;
-  LCDRange* m_wpm;
-  LCDRange* m_spacing;
+  QTextEdit* m_cwtext;
+  QLCDNumber* m_wpm;
+  QLCDNumber* m_spacing;
 
   QString m_charpipe;
 
