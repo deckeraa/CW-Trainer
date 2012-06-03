@@ -27,7 +27,7 @@ int main( int argc, char **argv )
   QApplication a( argc, argv );
 
   MyWidget w(NULL, "CW Trainer");
-  a.setMainWidget( &w );
+//  a.setMainWidget( &w );
   w.setMinimumSize(640, 480);
   w.show();
   return a.exec();
