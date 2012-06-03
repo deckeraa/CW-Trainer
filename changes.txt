@@ -1,0 +1,10 @@
+[CWTrainer](http://sourceforge.net/projects/cwtrainer/)
+"layout.h:16:28: fatal error: qmultilineedit.h: No such file or directory"
+[QMultiLineEdit](http://www.vision.ee.ethz.ch/computing/sepp-irix/qt-3.0-mo/qmultilineedit.html)
+is now obsolete, so line 16 of layout.h was changed from
+#include <qmultilineedit.h>
+to
+#include <qtextedit.h>
+
+
+lcdrange.h:12:19: fatal error: qvbox.h: No such file or directory
