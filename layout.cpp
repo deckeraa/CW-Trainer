@@ -24,6 +24,7 @@
 #include "cwsound.h"
 
 #include "cwtest.h"
+#include "lcdrange.h"
 
 #define CODESPEED_MIN 15
 
@@ -36,9 +37,11 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
   m_cw = new CWSoundMachine(20, 1, 600);
   m_lastchar = '&';
 
-  QGridLayout *grid = new QGridLayout(this, 2, 2, 10);
+  //QGridLayout *grid = new QGridLayout(this, 2, 2, 10);
+  QGridLayout *grid = new QGridLayout(this);
 
-  m_wpm = new LCDRange(CODESPEED_MIN, 40, this);
+  //m_wpm = new LCDRange(CODESPEED_MIN, 40, this);
+  LCDRange m_wpm = new LCDRange(CODESPEED_MIN, 40, this);
   m_wpm->setValue(20);
 
   connect(m_wpm, SIGNAL(valueChanged(int)),
@@ -156,7 +159,8 @@ void MyWidget::playNextChar()
 	  return;
 	}
 
-      next_char = (char)ch.upper();
+      //next_char = (char)ch.upper();
+      next_char = ch.toUpper().toAscii();
 
       //couple of translations?
       if(next_char == '-' || next_char == ':' || next_char == '\\')
@@ -172,7 +176,8 @@ void MyWidget::playNextChar()
 	      EndCW();
 	      return;
 	    }
-	  prosign[0] = (char)ch.upper();
+	  //prosign[0] = (char)ch.upper();
+	  prosign[0] = ch.toUpper().toAscii();
 
 	  ch = m_charpipe[m_numingroup];
 	  m_numingroup++;
@@ -181,7 +186,8 @@ void MyWidget::playNextChar()
 	      EndCW();
 	      return;
 	    }
-	  prosign[1] = (char)ch.upper();
+	  //prosign[1] = (char)ch.upper();
+	  prosign[1] = ch.toUpper().toAscii();
 	}
 
       if(next_char == ' ')
