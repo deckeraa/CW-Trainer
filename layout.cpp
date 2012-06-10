@@ -216,7 +216,8 @@ void MyWidget::playNextChar()
 	  //m_cwtext->setText(m_cwtext->text() + QString(QChar(prosign[0])));
 	  m_cwtext->setText(m_cwtext->toPlainText() + QString(QChar(prosign[0])));
 	  m_cw->PlayCWNote(CWTest::GetCW(prosign[1]).c_str());
-	  m_cwtext->setText(m_cwtext->text() + QString(QChar(prosign[1])));
+	  //m_cwtext->setText(m_cwtext->text() + QString(QChar(prosign[1])));
+	  m_cwtext->setText(m_cwtext->toPlainText() + QString(QChar(prosign[1])));
 	}
 
       m_timer->changeInterval(m_charspace);
@@ -227,7 +228,7 @@ void MyWidget::playNextChar()
 	m_numingroup = 0;
 
       m_lastchar = ' ';
-      m_cwtext->setText(m_cwtext->text() + QString(" | "));
+      m_cwtext->setText(m_cwtext->toPlainText() + QString(" | "));
       m_timer->changeInterval(m_wordspace);
     }
 }
