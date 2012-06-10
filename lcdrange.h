@@ -10,10 +10,12 @@
 #define LCDRANGE_H
 
 //#include <qvbox.h>
+#include<QVBoxLayout>
 
 class QSlider;
 
-class LCDRange : public QVBox
+//class LCDRange : public QVBox
+class LCDRange : public QVBoxLayout
 {
     Q_OBJECT
 public:
