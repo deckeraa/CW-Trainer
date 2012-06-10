@@ -24,3 +24,15 @@ member named 'setMainWidget').
 
 layout.cpp:14:19: fatal error: qgrid.h: No such file or directory
 ````#include <qgrid.h>```` deleted from layout.cpp
+````#include <QGridLayout>```` used instead.
+
+The constructor for QGridLayout is incorrect. What is the meaning of 2, 2, and
+10, the arguments after the widget being passed?
+It looks like this system was built on Qt 3.3, so a quick look at
+the [old documentation](http://doc.qt.nokia.com/3.3/qgridlayout.html) shows
+that TODO
+
+The QPushButtons in layout.cpp were recieving the QButtonGroup as their parent
+widget in their constructors, which was throwing an error.
+I removed that and called the addButton of the QButtonGroup to add each of
+them.
