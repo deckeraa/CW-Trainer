@@ -25,6 +25,7 @@
 
 #include "cwtest.h"
 #include "lcdrange.h"
+#include <QTextEdit>
 
 #define CODESPEED_MIN 15
 
@@ -62,11 +63,13 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
   label = new QLabel (m_wpm, "Character Spacing", this);
   grid->addWidget(label, 0, 1);
 
-  m_cwtext = new QMultiLineEdit(this);
+  //m_cwtext = new QMultiLineEdit(this);
+  m_cwtext = new QTextEdit(this);
   m_cwtext->setFont(QFont( "Courier", 18, QFont::Bold ));
 
   m_cwtext->setReadOnly(true);
-  m_cwtext->setWordWrap(QMultiLineEdit::WidgetWidth);
+  //m_cwtext->setWordWrap(QMultiLineEdit::WidgetWidth);
+  m_cwtext->setWordWrap(QTextEdit::WidgetWidth);
   grid->addMultiCellWidget(m_cwtext, 2, 2, 0, 1);
 
   QPushButton *start = new QPushButton( "Start CW", this);
@@ -202,14 +205,16 @@ void MyWidget::playNextChar()
   if(dospace == false)
     {
       m_lastchar = next_char;
-      m_cwtext->setText(m_cwtext->text() + QString(QChar(next_char)));
+      //m_cwtext->setText(m_cwtext->text() + QString(QChar(next_char)));
+      m_cwtext->setText(m_cwtext->toPlainText() + QString(QChar(next_char)));
 
       if(play_char)
 	m_cw->PlayCWNote(CWTest::GetCW(next_char).c_str());
       else if(prosign[1])
 	{
 	  m_cw->PlayCWNote(CWTest::GetCW(prosign[0]).c_str());
-	  m_cwtext->setText(m_cwtext->text() + QString(QChar(prosign[0])));
+	  //m_cwtext->setText(m_cwtext->text() + QString(QChar(prosign[0])));
+	  m_cwtext->setText(m_cwtext->toPlainText() + QString(QChar(prosign[0])));
 	  m_cw->PlayCWNote(CWTest::GetCW(prosign[1]).c_str());
 	  m_cwtext->setText(m_cwtext->text() + QString(QChar(prosign[1])));
 	}
