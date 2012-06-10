@@ -96,22 +96,32 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
   grid->addWidget(m_lettergroup, 4, 0);
 
   QButtonGroup *bg = new QButtonGroup(1, Horizontal, "Actions", this) ;
-  QPushButton *clearall = new QPushButton( "Clear All", bg);
+  //QPushButton *clearall = new QPushButton( "Clear All", bg);
+  QPushButton *clearall = new QPushButton( "Clear All");
   connect( clearall, SIGNAL(clicked()),
 	   SLOT(ClearAll()) );
 
-  QPushButton *selectall = new QPushButton( "Select All", bg);
+  //QPushButton *selectall = new QPushButton( "Select All", bg);
+  QPushButton *selectall = new QPushButton( "Select All");
   connect( selectall, SIGNAL(clicked()),
 	   SLOT(SelectAll()) );
 
-  QPushButton *loadfile = new QPushButton( "Load File...", bg);
+  //QPushButton *loadfile = new QPushButton( "Load File...", bg);
+  QPushButton *loadfile = new QPushButton( "Load File...");
   connect( loadfile, SIGNAL(clicked()),
 	   SLOT(ReadFile()) );
 
 
-  QPushButton *about = new QPushButton( "About...", bg);
+  //QPushButton *about = new QPushButton( "About...", bg);
+  QPushButton *about = new QPushButton( "About...");
   connect( about, SIGNAL(clicked()),
 	   SLOT(About()) );
+
+  // add the QPushButtons to the QButtonGroup
+  bg->addButton( clearall  );
+  bg->addButton( selectall );
+  bg->addButton( loadfile  );
+  bg->addButton( about     );
 
 
   grid->addWidget(bg, 4, 1);
