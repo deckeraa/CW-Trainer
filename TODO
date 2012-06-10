@@ -1,0 +1,53 @@
+Version 0.01 - 2/13/2002
+
+Known bugs:
+* Will not play file if all letters are unchecked
+
+* Clears file when "Start CW" is pressed
+
+* General source code ugliness and poor practices... I'm not proud of 
+  this code, but it does work. Consider this first version a working
+  prototype. I felt it best to get the program "out there" in the
+  hands of people who want to use it and especially in the hands of
+  people who want to make it better.
+
+Things to fix and features to add:
+* Clean up the character speed code and make it more correct.
+
+* Completely revamp the playNextChar() function
+
+* Remove "modal" type code so that it doesn't matter if a file got loaded
+  or using random chars. Probably be better to just pre-load a bunch of 
+  random characters into m_charpipe and always use it
+
+* Better yet, totally separate the test generation from the GUI code -
+  this is the plan
+
+* Make the GUI more attractive and provide a way to configure on the fly.
+
+* Save the state of the program in a .rc file (this should be easy)
+
+* Adjust CW Note Frequency
+
+* Test timer / Timed tests
+
+* QRN (like W4FON's Koch for windows)
+
+* QSB (like W4FON's Koch for windows)
+
+* QRM (record random band noise - sort of the like QRN, but more realistic)
+
+* Add Prosigns to the regular char set (it works in the text files)
+
+* Add volume control
+
+* Adaptable GUI so "simple" versions can be presented. Probably driven
+  by a config file. 
+
+* Text file driven lesson planner. Allow teachers to create lessons
+  that present the user with a checklist of things to do. Lessons
+  will control the program (i.e. use chars K and M at X/Y speed for
+  N minutes.
+
+* Figure out a way to make correcting tests easier.
+

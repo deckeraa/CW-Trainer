@@ -1,0 +1,19 @@
+cwtrainer (0.0.1)
+  * First public release
+ -- John Wagner <john@wagner-usa.net>  Wed,  13 Feb 2002
+
+cwtrainer (0.0.2)
+  * Private release for those using a newer compiler
+ -- John Wagner <john@wagner-usa.net>
+
+cwtrainer (0.0.3)
+  * Second public release.
+  * Code compatibility changes for gcc 3.3.
+ -- Jacob Anawalt <jlanawalt@users.sourceforge.net>
+
+cwtrainer (0.1.0)
+  * Targeting QT3:
+  ** Switched from tmake to qmake
+  ** Building against qt-mt instead of qt
+  * Updated About box.
+ -- Jacob Anawalt <jlanawalt@users.sourceforge.net>
