@@ -39,3 +39,14 @@ them.
 
 I downloaded the latest version of the [LCDRange example](http://www.greyc.ensicaen.fr/ensicaen/Docs/Qt4/tutorial-t14.html)
 , which solved the problems withthat class.
+
+The biggest replacement after this was replacing QButtonGroup, which is *not* a QWidget, with QGroupBox, which is.
+
+After some more fairly straight-forward coding, it compiled.
+However, it wants to use OSS and I use ALSA, with OSS emulation not working, so I faked the /dev/dsp file by simply creating one.
+The program now starts, but the user interface displays improperly.
+Additionally, touching some programs causes teh program to crash with a 
+````
+QGridLayout: Multi-cell fromRow greater than toRow
+Segmentation fault
+````.

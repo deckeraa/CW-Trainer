@@ -36,6 +36,8 @@
 #define SPACING_MAX 40
 #define SPACING_DEFAULT 20
 
+#define CHARACTER_GRID_COLUMNS 5
+
 const char * MyWidget::m_cwchars = "KMRSUAPTLOWI.NJEFOY,VG5/Q9ZH38B?427C1D6X";
 
 MyWidget::MyWidget( QWidget *parent )
@@ -47,6 +49,7 @@ MyWidget::MyWidget( QWidget *parent )
 
   //QGridLayout *grid = new QGridLayout(this, 2, 2, 10);
   QGridLayout *grid = new QGridLayout(this);
+  //grid->setSpacing(10);
 
   //m_wpm = new LCDRange(CODESPEED_MIN, 40, this);
   LCDRange *m_wpm = new LCDRange(this);
@@ -86,7 +89,7 @@ MyWidget::MyWidget( QWidget *parent )
   //m_cwtext->setWordWrap(QMultiLineEdit::WidgetWidth);
   m_cwtext->setWordWrapMode(QTextOption::WordWrap);
   //grid->addMultiCellWidget(m_cwtext, 2, 2, 0, 1);
-  grid->addWidget(m_cwtext, 2, 2, 0, 1);
+  grid->addWidget(m_cwtext, 2, 0, 1, 2);
 
   QPushButton *start = new QPushButton( "Start CW", this);
   QPushButton *stop = new QPushButton( "Stop CW", this);
@@ -104,6 +107,7 @@ MyWidget::MyWidget( QWidget *parent )
   //m_lettergroup = new QGroupBox(5, Horizontal, "Chars", this) ;
   m_lettergroup = new QGroupBox("Chars", this) ;
   m_lettergroup->setAlignment( Qt::Alignment(Qt::AlignHCenter) );
+  QGridLayout *char_grid = new QGridLayout;
   for(int i = 0 ; ptr[i] ; i++)
     {
       //QCheckBox *cb = new QCheckBox(QString(QChar(ptr[i])), m_lettergroup);
@@ -114,12 +118,19 @@ MyWidget::MyWidget( QWidget *parent )
      // guessing at coordinates.
      // QButtonGroup cannot be added to QGridLayout
      // http://www.qtcentre.org/threads/42754-Can-t-add-QButtonGroup-to-QGridLayout
-     grid->addWidget(cb , 4, i, Qt::Alignment(Qt::AlignLeft));
+     //grid->addWidget(cb , 4, i, Qt::Alignment(Qt::AlignLeft));
+     int column = 0;
+     if( i != 0) // take care of divide-by-zero
+        column = i % CHARACTER_GRID_COLUMNS;
+     int row = i - column*i;
+     char_grid->addWidget(cb, row, column);
 
-//      m_lettergroup->insert(cb);
+//     m_lettergroup->insert(cb);
     }
 
-  grid->addWidget(m_lettergroup, 4, 0);
+  //grid->addWidget(m_lettergroup, 4, 0);
+    //grid->addWidget(char_grid, 4, 0);
+  grid->addLayout(char_grid, 4, 0);
 
   //QButtonGroup *bg = new QButtonGroup(1, Horizontal, "Actions", this) ;
   //QGroupBox *bg = new QGroupBox(1, Horizontal, "Actions", this) ;
@@ -169,6 +180,7 @@ MyWidget::MyWidget( QWidget *parent )
 
   //setCaption("CW Trainer");
   setWindowTitle("CW Trainer");
+  setLayout( grid );
 }
 
 //this function is ugly...
