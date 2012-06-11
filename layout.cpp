@@ -266,7 +266,8 @@ void MyWidget::playNextChar()
 	  m_cwtext->setText(m_cwtext->toPlainText() + QString(QChar(prosign[1])));
 	}
 
-      m_timer->changeInterval(m_charspace);
+      //m_timer->changeInterval(m_charspace);
+      m_timer->setInterval(m_charspace);
     }
   else
     {
@@ -275,7 +276,8 @@ void MyWidget::playNextChar()
 
       m_lastchar = ' ';
       m_cwtext->setText(m_cwtext->toPlainText() + QString(" | "));
-      m_timer->changeInterval(m_wordspace);
+      //m_timer->changeInterval(m_wordspace);
+      m_timer->setInterval(m_wordspace);
     }
 }
 
@@ -358,18 +360,20 @@ void MyWidget::SelectAll()
 
 void MyWidget::ReadFile()
 {
-  QString s( QFileDialog::getOpenFileName( QString::null, "*", this ) );
+  //QString s( QFileDialog::getOpenFileName( QString::null, "*", this ) );
+  QString s( QFileDialog::getOpenFileName( this, "Open File", QString::null, "*" ) );
   if ( s.isEmpty() )
     return;
 
   QFile f(s);
   
-  if ( f.open(IO_ReadOnly) ) 
+  if ( f.open(QIODevice::ReadOnly) ) 
     {    // file opened successfully
       m_charpipe = "";
       QTextStream t( &f );        // use a text stream
 
-      while ( !t.eof() )         // until end of file...
+      //while ( !t.eof() )         // until end of file...
+      while ( !t.atEnd() )         // until end of file...
 	{
 	  QString s = t.readLine();       // line of text excluding '\n'
 	  s += " ";
