@@ -117,7 +117,7 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
 //      m_lettergroup->insert(cb);
     }
 
-  //grid->addWidget(m_lettergroup, 4, 0);
+  grid->addWidget(m_lettergroup, 4, 0);
 
   //QButtonGroup *bg = new QButtonGroup(1, Horizontal, "Actions", this) ;
   QGroupBox *bg = new QGroupBox(1, Horizontal, "Actions", this) ;
