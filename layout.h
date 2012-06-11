@@ -43,7 +43,7 @@ private:
   int m_charspace;
   int m_wordspace;
 public:
-  MyWidget( QWidget *parent=0, const char *name=0 );
+  MyWidget( QWidget *parent=0 );
   ~MyWidget()
     {
       delete m_cw;

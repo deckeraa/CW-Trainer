@@ -38,7 +38,7 @@
 
 const char * MyWidget::m_cwchars = "KMRSUAPTLOWI.NJEFOY,VG5/Q9ZH38B?427C1D6X";
 
-MyWidget::MyWidget( QWidget *parent, const char *name )
+MyWidget::MyWidget( QWidget *parent )
   : QWidget( parent )
 {
   srand(time(NULL));
@@ -161,12 +161,14 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
   grid->addWidget( about    , 4, 4);*/
 
 
-  m_timer = new QTimer(this, "mycwtimer");
+  //m_timer = new QTimer(this, "mycwtimer");
+  m_timer = new QTimer(this);
   
   connect(m_timer, SIGNAL(timeout()),
 	   SLOT(playNextChar()) );
 
-  setCaption("CW Trainer");
+  //setCaption("CW Trainer");
+  setWindowTitle("CW Trainer");
 }
 
 //this function is ugly...
