@@ -28,6 +28,12 @@
 #include <QTextEdit>
 
 #define CODESPEED_MIN 15
+#define CODESPEED_MAX 40
+#define CODESPEED_DEFAULT 20
+
+#define SPACING_MIN 5
+#define SPACING_MAX 40
+#define SPACING_DEFAULT 20
 
 const char * MyWidget::m_cwchars = "KMRSUAPTLOWI.NJEFOY,VG5/Q9ZH38B?427C1D6X";
 
@@ -42,19 +48,26 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
   QGridLayout *grid = new QGridLayout(this);
 
   //m_wpm = new LCDRange(CODESPEED_MIN, 40, this);
-  LCDRange m_wpm = new LCDRange(CODESPEED_MIN, 40, this);
-  m_wpm->setValue(20);
+  LCDRange *m_wpm = new LCDRange(this);
+  m_wpm->setRange(CODESPEED_MIN, CODESPEED_MAX);
+  //m_wpm->setValue(20);
+  m_wpm->setValue(CODESPEED_DEFAULT);
 
   connect(m_wpm, SIGNAL(valueChanged(int)),
 	  SLOT(NewSpeed(int)) );
 
 
-  QLabel *label = new QLabel ( m_wpm, "CW Character Speed", this);
+  //QLabel *label = new QLabel ( m_wpm, "CW Character Speed", this);
+  QLabel *label = new QLabel ( "CW Character Speed", this);
+  //label->setBuddy(m_wpm);
   grid->addWidget(label, 0, 0);
-  grid->addWidget(m_wpm, 1, 0);
+  grid->addWidget(m_wpm, 1, 0, Qt::Alignment(Qt::AlignLeft) );
 
-  m_spacing = new LCDRange(5, 40, this);
-  m_spacing->setValue(20);
+  //m_spacing = new LCDRange(5, 40, this);
+  m_spacing = new LCDRange(this);
+  m_spacing->setRange(SPACING_MIN, SPACING_MAX);
+  //m_spacing->setValue(20);
+  m_spacing->setValue(SPACING_DEFAULT);
 
   connect(m_spacing, SIGNAL(valueChanged(int)),
 	  SLOT(NewSpacing(int)) );

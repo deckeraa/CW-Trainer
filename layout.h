@@ -14,8 +14,8 @@
 #include <qtimer.h>
 #include <qbuttongroup.h>
 #include <qtextedit.h>
-//#include "lcdrange.h"
-#include <QLCDNumber>
+#include "lcdrange.h"
+//#include <QLCDNumber>
 #include "cwsound.h"
 
 class MyWidget : public QWidget
@@ -27,8 +27,8 @@ private:
   QTimer *m_timer;
   QButtonGroup *m_lettergroup;
   QTextEdit* m_cwtext;
-  QLCDNumber* m_wpm;
-  QLCDNumber* m_spacing;
+  LCDRange* m_wpm;
+  LCDRange* m_spacing;
 
   QString m_charpipe;
 
