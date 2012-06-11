@@ -84,7 +84,8 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
   m_cwtext->setReadOnly(true);
   //m_cwtext->setWordWrap(QMultiLineEdit::WidgetWidth);
   m_cwtext->setWordWrapMode(QTextOption::WordWrap);
-  grid->addMultiCellWidget(m_cwtext, 2, 2, 0, 1);
+  //grid->addMultiCellWidget(m_cwtext, 2, 2, 0, 1);
+  grid->addWidget(m_cwtext, 2, 2, 0, 1);
 
   QPushButton *start = new QPushButton( "Start CW", this);
   QPushButton *stop = new QPushButton( "Stop CW", this);
@@ -146,7 +147,12 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
   bg->addButton( about     );
 
 
-  grid->addWidget(bg, 4, 1);
+  //grid->addWidget(bg, 4, 1);
+  // guessing at coordinates
+  grid->addWidget( clearall , 4, 1);
+  grid->addWidget( selectall, 4, 2);
+  grid->addWidget( loadfile , 4, 3);
+  grid->addWidget( about    , 4, 4);
 
 
   m_timer = new QTimer(this, "mycwtimer");
