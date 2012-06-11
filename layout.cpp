@@ -73,7 +73,8 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
 	  SLOT(NewSpacing(int)) );
 
   grid->addWidget(m_spacing, 1, 1);
-  label = new QLabel (m_wpm, "Character Spacing", this);
+  //label = new QLabel (m_wpm, "Character Spacing", this);
+  label = new QLabel ("Character Spacing");
   grid->addWidget(label, 0, 1);
 
   //m_cwtext = new QMultiLineEdit(this);
@@ -82,7 +83,7 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
 
   m_cwtext->setReadOnly(true);
   //m_cwtext->setWordWrap(QMultiLineEdit::WidgetWidth);
-  m_cwtext->setWordWrap(QTextEdit::WidgetWidth);
+  m_cwtext->setWordWrapMode(QTextOption::WordWrap);
   grid->addMultiCellWidget(m_cwtext, 2, 2, 0, 1);
 
   QPushButton *start = new QPushButton( "Start CW", this);
@@ -101,12 +102,20 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
   m_lettergroup = new QButtonGroup(5, Horizontal, "Chars", this) ;
   for(int i = 0 ; ptr[i] ; i++)
     {
-      QCheckBox *cb = new QCheckBox(QString(QChar(ptr[i])), m_lettergroup);
+      //QCheckBox *cb = new QCheckBox(QString(QChar(ptr[i])), m_lettergroup);
+      QCheckBox *cb = new QCheckBox(QString(QChar(ptr[i])), this);
+      m_lettergroup->addButton( cb );
+
       cb->setChecked(CWTest::CharInUse(ptr[i]));
-      m_lettergroup->insert(cb);
+     // guessing at coordinates.
+     // QButtonGroup cannot be added to QGridLayout
+     // http://www.qtcentre.org/threads/42754-Can-t-add-QButtonGroup-to-QGridLayout
+     grid->addWidget(cb , 4, i, Qt::Alignment(Qt::AlignLeft));
+
+//      m_lettergroup->insert(cb);
     }
 
-  grid->addWidget(m_lettergroup, 4, 0);
+  //grid->addWidget(m_lettergroup, 4, 0);
 
   QButtonGroup *bg = new QButtonGroup(1, Horizontal, "Actions", this) ;
   //QPushButton *clearall = new QPushButton( "Clear All", bg);
