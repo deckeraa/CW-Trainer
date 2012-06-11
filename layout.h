@@ -17,6 +17,7 @@
 #include "lcdrange.h"
 //#include <QLCDNumber>
 #include "cwsound.h"
+#include <QGroupBox>
 
 class MyWidget : public QWidget
 {
@@ -25,7 +26,7 @@ class MyWidget : public QWidget
 private:
   CWSoundMachine* m_cw;
   QTimer *m_timer;
-  QButtonGroup *m_lettergroup;
+  QGroupBox *m_lettergroup;
   QTextEdit* m_cwtext;
   LCDRange* m_wpm;
   LCDRange* m_spacing;

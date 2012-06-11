@@ -26,6 +26,7 @@
 #include "cwtest.h"
 #include "lcdrange.h"
 #include <QTextEdit>
+#include <QGroupBox>
 
 #define CODESPEED_MIN 15
 #define CODESPEED_MAX 40
@@ -100,12 +101,12 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
   grid->addWidget(stop, 3, 1);
 
   const char *ptr = m_cwchars;
-  m_lettergroup = new QButtonGroup(5, Horizontal, "Chars", this) ;
+  m_lettergroup = new QGroupBox(5, Horizontal, "Chars", this) ;
   for(int i = 0 ; ptr[i] ; i++)
     {
       //QCheckBox *cb = new QCheckBox(QString(QChar(ptr[i])), m_lettergroup);
-      QCheckBox *cb = new QCheckBox(QString(QChar(ptr[i])), this);
-      m_lettergroup->addButton( cb );
+      QCheckBox *cb = new QCheckBox(QString(QChar(ptr[i])), m_lettergroup);
+      //m_lettergroup->addButton( cb );
 
       cb->setChecked(CWTest::CharInUse(ptr[i]));
      // guessing at coordinates.
@@ -118,9 +119,10 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
 
   //grid->addWidget(m_lettergroup, 4, 0);
 
-  QButtonGroup *bg = new QButtonGroup(1, Horizontal, "Actions", this) ;
+  //QButtonGroup *bg = new QButtonGroup(1, Horizontal, "Actions", this) ;
+  QGroupBox *bg = new QGroupBox(1, Horizontal, "Actions", this) ;
   //QPushButton *clearall = new QPushButton( "Clear All", bg);
-  QPushButton *clearall = new QPushButton( "Clear All");
+  QPushButton *clearall = new QPushButton( "Clear All", bg);
   connect( clearall, SIGNAL(clicked()),
 	   SLOT(ClearAll()) );
 
@@ -141,18 +143,18 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
 	   SLOT(About()) );
 
   // add the QPushButtons to the QButtonGroup
-  bg->addButton( clearall  );
+  /*bg->addButton( clearall  );
   bg->addButton( selectall );
   bg->addButton( loadfile  );
-  bg->addButton( about     );
+  bg->addButton( about     );*/
 
 
-  //grid->addWidget(bg, 4, 1);
+  grid->addWidget(bg, 4, 1);
   // guessing at coordinates
-  grid->addWidget( clearall , 4, 1);
+  /*grid->addWidget( clearall , 4, 1);
   grid->addWidget( selectall, 4, 2);
   grid->addWidget( loadfile , 4, 3);
-  grid->addWidget( about    , 4, 4);
+  grid->addWidget( about    , 4, 4);*/
 
 
   m_timer = new QTimer(this, "mycwtimer");
