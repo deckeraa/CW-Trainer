@@ -36,3 +36,6 @@ The QPushButtons in layout.cpp were recieving the QButtonGroup as their parent
 widget in their constructors, which was throwing an error.
 I removed that and called the addButton of the QButtonGroup to add each of
 them.
+
+I downloaded the latest version of the [LCDRange example](http://www.greyc.ensicaen.fr/ensicaen/Docs/Qt4/tutorial-t14.html)
+, which solved the problems withthat class.
