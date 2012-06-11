@@ -101,7 +101,9 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
   grid->addWidget(stop, 3, 1);
 
   const char *ptr = m_cwchars;
-  m_lettergroup = new QGroupBox(5, Horizontal, "Chars", this) ;
+  //m_lettergroup = new QGroupBox(5, Horizontal, "Chars", this) ;
+  m_lettergroup = new QGroupBox("Chars", this) ;
+  m_lettergroup->setAlignment( Qt::Alignment(Qt::AlignHCenter) );
   for(int i = 0 ; ptr[i] ; i++)
     {
       //QCheckBox *cb = new QCheckBox(QString(QChar(ptr[i])), m_lettergroup);
@@ -120,7 +122,9 @@ MyWidget::MyWidget( QWidget *parent, const char *name )
   grid->addWidget(m_lettergroup, 4, 0);
 
   //QButtonGroup *bg = new QButtonGroup(1, Horizontal, "Actions", this) ;
-  QGroupBox *bg = new QGroupBox(1, Horizontal, "Actions", this) ;
+  //QGroupBox *bg = new QGroupBox(1, Horizontal, "Actions", this) ;
+  QGroupBox *bg = new QGroupBox("Actions", this) ;
+  bg->setAlignment( Qt::Alignment(Qt::AlignHCenter) );
   //QPushButton *clearall = new QPushButton( "Clear All", bg);
   QPushButton *clearall = new QPushButton( "Clear All", bg);
   connect( clearall, SIGNAL(clicked()),

@@ -12,7 +12,7 @@
 
 #include <qwidget.h>
 #include <qtimer.h>
-#include <qbuttongroup.h>
+//#include <qbuttongroup.h>
 #include <qtextedit.h>
 #include "lcdrange.h"
 //#include <QLCDNumber>
