@@ -162,10 +162,13 @@ MyWidget::MyWidget( QWidget *parent )
 	   SLOT(About()) );
 
   // add the QPushButtons to the QButtonGroup
-  /*bg->addButton( clearall  );
-  bg->addButton( selectall );
-  bg->addButton( loadfile  );
-  bg->addButton( about     );*/
+  QVBoxLayout *vbuttons = new QVBoxLayout;
+  //vbuttons->setSpacing(0);
+  vbuttons->addWidget( clearall  );
+  vbuttons->addWidget( selectall );
+  vbuttons->addWidget( loadfile  );
+  vbuttons->addWidget( about     );
+  bg->setLayout( vbuttons );
 
 
   grid->addWidget(bg, 4, 1);
