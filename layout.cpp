@@ -37,7 +37,7 @@
 #define SPACING_MAX 40
 #define SPACING_DEFAULT 20
 
-#define CHARACTER_GRID_COLUMNS 5
+#define CHARACTER_GRID_ROWS 8
 
 const char * MyWidget::m_cwchars = "KMRSUAPTLOWI.NJEFOY,VG5/Q9ZH38B?427C1D6X";
 
@@ -109,7 +109,7 @@ MyWidget::MyWidget( QWidget *parent )
   m_lettergroup = new QGroupBox("Chars", this) ;
   m_lettergroup->setAlignment( Qt::Alignment(Qt::AlignHCenter) );
   QGridLayout *char_grid = new QGridLayout;
-  int chars_in_column = QString(ptr).length() / CHARACTER_GRID_COLUMNS;
+  int chars_in_row = QString(ptr).length() / CHARACTER_GRID_ROWS;
   for(int i = 0 ; ptr[i] ; i++)
     {
       //QCheckBox *cb = new QCheckBox(QString(QChar(ptr[i])), m_lettergroup);
@@ -121,20 +121,20 @@ MyWidget::MyWidget( QWidget *parent )
      // QButtonGroup cannot be added to QGridLayout
      // http://www.qtcentre.org/threads/42754-Can-t-add-QButtonGroup-to-QGridLayout
      //grid->addWidget(cb , 4, i, Qt::Alignment(Qt::AlignLeft));
-     int column = 0;
+     int row = 0;
      if( i != 0) // take care of divide-by-zero
-        column = i / chars_in_column;
-     int row = i - column*chars_in_column;
-     std::cout << "column: " << column << " row: " << row << "\n";
-     std::cout << "i: " << i << " chars_in_column: " << chars_in_column << "\n";
+        row = i / chars_in_row;
+     int column  = i - row*chars_in_row;
      char_grid->addWidget(cb, row, column);
 
 //     m_lettergroup->insert(cb);
     }
+  m_lettergroup->setLayout(char_grid);
 
   //grid->addWidget(m_lettergroup, 4, 0);
     //grid->addWidget(char_grid, 4, 0);
-  grid->addLayout(char_grid, 4, 0);
+  //grid->addLayout(char_grid, 4, 0);
+  grid->addWidget(m_lettergroup, 4, 0);
 
   //QButtonGroup *bg = new QButtonGroup(1, Horizontal, "Actions", this) ;
   //QGroupBox *bg = new QGroupBox(1, Horizontal, "Actions", this) ;
