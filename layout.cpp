@@ -27,6 +27,7 @@
 #include "lcdrange.h"
 #include <QTextEdit>
 #include <QGroupBox>
+#include <iostream>
 
 #define CODESPEED_MIN 15
 #define CODESPEED_MAX 40
@@ -108,6 +109,7 @@ MyWidget::MyWidget( QWidget *parent )
   m_lettergroup = new QGroupBox("Chars", this) ;
   m_lettergroup->setAlignment( Qt::Alignment(Qt::AlignHCenter) );
   QGridLayout *char_grid = new QGridLayout;
+  int chars_in_column = QString(ptr).length() / CHARACTER_GRID_COLUMNS;
   for(int i = 0 ; ptr[i] ; i++)
     {
       //QCheckBox *cb = new QCheckBox(QString(QChar(ptr[i])), m_lettergroup);
@@ -121,8 +123,10 @@ MyWidget::MyWidget( QWidget *parent )
      //grid->addWidget(cb , 4, i, Qt::Alignment(Qt::AlignLeft));
      int column = 0;
      if( i != 0) // take care of divide-by-zero
-        column = i % CHARACTER_GRID_COLUMNS;
-     int row = i - column*i;
+        column = i / chars_in_column;
+     int row = i - column*chars_in_column;
+     std::cout << "column: " << column << " row: " << row << "\n";
+     std::cout << "i: " << i << " chars_in_column: " << chars_in_column << "\n";
      char_grid->addWidget(cb, row, column);
 
 //     m_lettergroup->insert(cb);
