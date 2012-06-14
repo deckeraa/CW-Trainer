@@ -18,6 +18,7 @@
 //#include <QLCDNumber>
 #include "cwsound.h"
 #include <QGroupBox>
+#include <QGridLayout>
 
 class MyWidget : public QWidget
 {
@@ -27,6 +28,7 @@ private:
   CWSoundMachine* m_cw;
   QTimer *m_timer;
   QGroupBox *m_lettergroup;
+  QGridLayout *m_letterlayout;
   QTextEdit* m_cwtext;
   LCDRange* m_wpm;
   LCDRange* m_spacing;
@@ -63,6 +65,9 @@ protected slots:
     void ReadFile();
 
     void playNextChar();
+    // utility functions
+    void ConvertToPosition( int i, int *row, int *column);
+    int ConvertFromPosition( int row, int column );
 };
 
 #endif

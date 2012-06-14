@@ -108,8 +108,8 @@ MyWidget::MyWidget( QWidget *parent )
   //m_lettergroup = new QGroupBox(5, Horizontal, "Chars", this) ;
   m_lettergroup = new QGroupBox("Chars", this) ;
   m_lettergroup->setAlignment( Qt::Alignment(Qt::AlignHCenter) );
-  QGridLayout *char_grid = new QGridLayout;
-  int chars_in_row = QString(ptr).length() / CHARACTER_GRID_ROWS;
+  m_letterlayout = new QGridLayout;
+  //int chars_in_row = QString(ptr).length() / CHARACTER_GRID_ROWS;
   for(int i = 0 ; ptr[i] ; i++)
     {
       //QCheckBox *cb = new QCheckBox(QString(QChar(ptr[i])), m_lettergroup);
@@ -121,19 +121,21 @@ MyWidget::MyWidget( QWidget *parent )
      // QButtonGroup cannot be added to QGridLayout
      // http://www.qtcentre.org/threads/42754-Can-t-add-QButtonGroup-to-QGridLayout
      //grid->addWidget(cb , 4, i, Qt::Alignment(Qt::AlignLeft));
-     int row = 0;
-     if( i != 0) // take care of divide-by-zero
-        row = i / chars_in_row;
-     int column  = i - row*chars_in_row;
-     char_grid->addWidget(cb, row, column);
+     //int row = 0;
+     //if( i != 0) // take care of divide-by-zero
+      //  row = i / chars_in_row;
+     //int column  = i - row*chars_in_row;
+     int row, column;
+     ConvertToPosition( i, &row, &column); // modifies row and column
+     m_letterlayout->addWidget(cb, row, column);
 
 //     m_lettergroup->insert(cb);
     }
-  m_lettergroup->setLayout(char_grid);
+  m_lettergroup->setLayout(m_letterlayout);
 
   //grid->addWidget(m_lettergroup, 4, 0);
-    //grid->addWidget(char_grid, 4, 0);
-  //grid->addLayout(char_grid, 4, 0);
+    //grid->addWidget(m_letterlayout, 4, 0);
+  //grid->addLayout(m_letterlayout, 4, 0);
   grid->addWidget(m_lettergroup, 4, 0);
 
   //QButtonGroup *bg = new QButtonGroup(1, Horizontal, "Actions", this) ;
@@ -362,6 +364,11 @@ void MyWidget::ClearAll()
   for(int i = 0 ; i < 40 ; i++)
     {
       QCheckBox *b = (QCheckBox*)m_lettergroup->find(i);
+      if( b == NULL )
+      {
+         std::cerr << "Checkbox #" << i << " not found in MyWidget::SelectAll()\n";
+         return;
+      }
       b->setChecked(false);
     }
  
@@ -371,7 +378,15 @@ void MyWidget::SelectAll()
 {
   for(int i = 0 ; i < 40 ; i++)
     {
-      QCheckBox *b = (QCheckBox*)m_lettergroup->find(i);
+      //QCheckBox *b = (QCheckBox*)m_lettergroup->find(i);
+      int row, column;
+      ConvertToPosition( i , &row, &column); // modifies row and column
+      QCheckBox *b = (QCheckBox*)m_letterlayout->itemAtPosition(row, column);
+      if( b == NULL )
+      {
+         std::cerr << "Checkbox #" << i << " not found in MyWidget::SelectAll()\n";
+         return;
+      }
       b->setChecked(true);
     }
  
@@ -406,4 +421,28 @@ void MyWidget::ReadFile()
     QMessageBox::information( this, "CW Trainer",
 			      "An error occurred opening the file");
 
+}
+
+/**
+* Takes a single integer and converts it to acoordinate on the grid of characters.
+* The coordinate is passed back using the two reference paramaters, row and column.
+*/
+void MyWidget::ConvertToPosition( int i, int *row, int *column)
+{
+   const char *ptr = m_cwchars;
+   int chars_in_row = QString(ptr).length() / CHARACTER_GRID_ROWS;
+   *row = 0;
+   if( i != 0) // take care of divide-by-zero
+      *row = i / chars_in_row;
+   *column  = i - (*row) * chars_in_row;
+}
+
+/**
+* Takes a row and a column and converts it to a single index in the grid of characters.
+*/
+int MyWidget::ConvertFromPosition( int row, int column )
+{
+   const char *ptr = m_cwchars;
+   int chars_in_row = QString(ptr).length() / CHARACTER_GRID_ROWS;
+   return column + row * chars_in_row;
 }
