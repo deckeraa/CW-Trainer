@@ -41,7 +41,7 @@
 
 const char * MyWidget::m_cwchars = "KMRSUAPTLOWI.NJEFOY,VG5/Q9ZH38B?427C1D6X";
 
-MyWidget::MyWidget( QWidget *parent )
+MyWidget::MyWidget( QWidget *parent )/*{{{*/
   : QWidget( parent )
 {
   srand(time(NULL));
@@ -190,9 +190,9 @@ MyWidget::MyWidget( QWidget *parent )
   //setCaption("CW Trainer");
   setWindowTitle("CW Trainer");
   setLayout( grid );
-}
+}/*}}}*/
 
-//this function is ugly...
+//this function is ugly.../*{{{*/
 //too many special cases and flags
 void MyWidget::playNextChar()
 {
@@ -300,9 +300,9 @@ void MyWidget::playNextChar()
       //m_timer->changeInterval(m_wordspace);
       m_timer->setInterval(m_wordspace);
     }
-}
+}/*}}}*/
 
-void MyWidget::StartCW()
+void MyWidget::StartCW()/*{{{*/
 {
   m_timer->stop();
   //gather the checked boxes...
@@ -328,7 +328,7 @@ void MyWidget::StartCW()
       m_cwtext->setText(QString(""));
       m_timer->start(500);
     }
-}
+}/*}}}*/
 
 void MyWidget::NewSpeed(int speed)
 {
@@ -392,7 +392,7 @@ void MyWidget::SelectAll()
  
 }
 
-void MyWidget::ReadFile()
+void MyWidget::ReadFile()/*{{{*/
 {
   //QString s( QFileDialog::getOpenFileName( QString::null, "*", this ) );
   QString s( QFileDialog::getOpenFileName( this, "Open File", QString::null, "*" ) );
@@ -421,7 +421,7 @@ void MyWidget::ReadFile()
     QMessageBox::information( this, "CW Trainer",
 			      "An error occurred opening the file");
 
-}
+}/*}}}*/
 
 /**
 * Takes a single integer and converts it to acoordinate on the grid of characters.
