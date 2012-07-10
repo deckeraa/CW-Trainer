@@ -29,6 +29,7 @@
 #include <QGroupBox>
 #include <iostream>
 
+
 #define CODESPEED_MIN 15
 #define CODESPEED_MAX 40
 #define CODESPEED_DEFAULT 20
@@ -105,6 +106,7 @@ MyWidget::MyWidget( QWidget *parent )/*{{{*/
   grid->addWidget(stop, 3, 1);
 
   const char *ptr = m_cwchars;
+  m_letters = new QCheckBox*[QString(m_cwchars).length()];
   //m_lettergroup = new QGroupBox(5, Horizontal, "Chars", this) ;
   m_lettergroup = new QGroupBox("Chars", this) ;
   m_lettergroup->setAlignment( Qt::Alignment(Qt::AlignHCenter) );
@@ -117,6 +119,7 @@ MyWidget::MyWidget( QWidget *parent )/*{{{*/
       //m_lettergroup->addButton( cb );
 
       cb->setChecked(CWTest::CharInUse(ptr[i]));
+     m_letters[i] = cb;
      // guessing at coordinates.
      // QButtonGroup cannot be added to QGridLayout
      // http://www.qtcentre.org/threads/42754-Can-t-add-QButtonGroup-to-QGridLayout
@@ -361,9 +364,11 @@ void MyWidget::About()
 
 void MyWidget::ClearAll()
 {
-  for(int i = 0 ; i < 40 ; i++)
+  int num_chars = QString(m_cwchars).length();
+  for(int i = 0 ; i < num_chars; i++)
     {
-      QCheckBox *b = (QCheckBox*)m_lettergroup->find(i);
+      //QCheckBox *b = (QCheckBox*)m_lettergroup->find(i);
+      QCheckBox *b = m_letters[i];
       if( b == NULL )
       {
          std::cerr << "Checkbox #" << i << " not found in MyWidget::SelectAll()\n";
@@ -376,12 +381,14 @@ void MyWidget::ClearAll()
 
 void MyWidget::SelectAll()
 {
-  for(int i = 0 ; i < 40 ; i++)
+  int num_chars = QString(m_cwchars).length();
+  for(int i = 0 ; i < num_chars; i++)
     {
       //QCheckBox *b = (QCheckBox*)m_lettergroup->find(i);
       int row, column;
       ConvertToPosition( i , &row, &column); // modifies row and column
-      QCheckBox *b = (QCheckBox*)m_letterlayout->itemAtPosition(row, column);
+      //QCheckBox *b = (QCheckBox*)m_letterlayout->itemAtPosition(row, column);
+      QCheckBox *b = m_letters[i];
       if( b == NULL )
       {
          std::cerr << "Checkbox #" << i << " not found in MyWidget::SelectAll()\n";

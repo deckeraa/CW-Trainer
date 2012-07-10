@@ -19,6 +19,7 @@
 #include "cwsound.h"
 #include <QGroupBox>
 #include <QGridLayout>
+#include <qcheckbox.h>
 
 class MyWidget : public QWidget
 {
@@ -29,6 +30,7 @@ private:
   QTimer *m_timer;
   QGroupBox *m_lettergroup;
   QGridLayout *m_letterlayout;
+  QCheckBox **m_letters;
   QTextEdit* m_cwtext;
   LCDRange* m_wpm;
   LCDRange* m_spacing;
