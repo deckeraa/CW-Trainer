@@ -309,9 +309,30 @@ void MyWidget::StartCW()/*{{{*/
 {
   m_timer->stop();
   //gather the checked boxes...
-  memset(m_charsInTest, 0, 41);
+  int num_chars = QString(m_cwchars).length();
+  memset(m_charsInTest, 0, num_chars+1);
   m_numInTest = 0;
-  for(int i = 0 ; i < 40 ; i++)
+  
+  for(int i = 0 ; i < num_chars; i++)
+    {
+      //QCheckBox *b = (QCheckBox*)m_lettergroup->find(i);
+      int row, column;
+      ConvertToPosition( i , &row, &column); // modifies row and column
+      //QCheckBox *b = (QCheckBox*)m_letterlayout->itemAtPosition(row, column);
+      QCheckBox *b = m_letters[i];
+      if( b == NULL )
+      {
+         std::cerr << "Checkbox #" << i << " not found in MyWidget::SelectAll()\n";
+         return;
+      }
+      if( b->isChecked() )
+      {
+	   m_charsInTest[m_numInTest] = m_cwchars[i];
+	   m_numInTest++;
+      }
+    }
+
+  /*  for(int i = 0 ; i < 40 ; i++)
     {
       QCheckBox *b = (QCheckBox*)m_lettergroup->find(i);
       if(b->isChecked())
@@ -319,15 +340,16 @@ void MyWidget::StartCW()/*{{{*/
 	  m_charsInTest[m_numInTest] = m_cwchars[i];
 	  m_numInTest++;
 	}
-    }
+	}*/
   if(m_numInTest)
     {
       m_numingroup = 0;
-      int speed = m_wpm->value();
+      // redundant, plus m_wpm->value() segfaults for some reason
+      /*int speed = m_wpm->value();
       int space = m_spacing->value();
 
       NewSpeed(speed);
-      NewSpacing(space);
+      NewSpacing(space);*/
       m_cwtext->setText(QString(""));
       m_timer->start(500);
     }
@@ -336,6 +358,7 @@ void MyWidget::StartCW()/*{{{*/
 void MyWidget::NewSpeed(int speed)
 {
   m_cw->AdjustSpeed(speed);
+  //  hack_value = speed;
 }
 
 void MyWidget::NewSpacing(int space)

@@ -7,6 +7,8 @@
  *
  ************************************************************************/
 
+#define ALSA
+
 #include <unistd.h>
 #include <fcntl.h>
 #include <sys/types.h>
@@ -17,6 +19,13 @@
 #include <ctype.h>
 #include <math.h>
 #include <string.h>
+
+#ifdef ALSA
+   #include <alsa/asoundlib.h>
+#endif /* ALSA */
+
+#ifdef OSS
+#endif /* OSS */
 
 #include "cwsound.h"
 
@@ -86,7 +95,7 @@ CWSoundMachine::CWSoundMachine(int speed, int charspacelen, int freq) :
   m_ditbuffer = new unsigned char[maxlen];
   m_dahbuffer = new unsigned char[maxlen];
 
-
+#ifdef OSS
   /* open sound device */
   m_dsp = open("/dev/dsp", O_WRONLY, 0);
   if (m_dsp < 0) {
@@ -110,7 +119,10 @@ CWSoundMachine::CWSoundMachine(int speed, int charspacelen, int freq) :
 
   value = 0; /* mono = 0, stereo = 1 */
   ioctl (m_dsp, SNDCTL_DSP_STEREO, &value);
+#endif /* OSS */
 
+#ifdef ALSA
+#endif /* ALSA */
   BuildBuffers();
 }
 
