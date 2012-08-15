@@ -7,7 +7,6 @@
  *
  ************************************************************************/
 
-#define ALSA
 
 #include <unistd.h>
 #include <fcntl.h>
@@ -19,13 +18,6 @@
 #include <ctype.h>
 #include <math.h>
 #include <string.h>
-
-#ifdef ALSA
-   #include <alsa/asoundlib.h>
-#endif /* ALSA */
-
-#ifdef OSS
-#endif /* OSS */
 
 #include "cwsound.h"
 
@@ -95,13 +87,14 @@ CWSoundMachine::CWSoundMachine(int speed, int charspacelen, int freq) :
   m_ditbuffer = new unsigned char[maxlen];
   m_dahbuffer = new unsigned char[maxlen];
 
-#ifdef OSS
-  /* open sound device */
-  m_dsp = open("/dev/dsp", O_WRONLY, 0);
-  if (m_dsp < 0) {
-    perror("open of /dev/dsp failed");
-    _exit(1);
-  }
+  #ifdef OSS
+    /* open sound device */
+    m_dsp = open("/dev/dsp", O_WRONLY, 0);
+    if (m_dsp < 0) 
+    {
+      perror("open of /dev/dsp failed");
+      _exit(1);
+    }
   int value = AFMT_U8;
   ioctl (m_dsp, SNDCTL_DSP_SETFMT, &value);
 
@@ -119,10 +112,37 @@ CWSoundMachine::CWSoundMachine(int speed, int charspacelen, int freq) :
 
   value = 0; /* mono = 0, stereo = 1 */
   ioctl (m_dsp, SNDCTL_DSP_STEREO, &value);
-#endif /* OSS */
+  #endif /* OSS */
 
-#ifdef ALSA
-#endif /* ALSA */
+  #ifdef ALSA
+    int return_value;
+    // open device
+    return_value = snd_pcm_open( &m_handle, "default", SND_PCM_STREAM_PLAYBACK, 0);
+    if( return_value < 0)
+    {
+       fprintf(stderr, "Could not open sound device: %s\n", snd_strerror( return_value ));
+       _exit(1);
+    }
+
+    // get hardware parameters
+    snd_pcm_hw_params_alloca(&m_params);
+    snd_pcm_hw_params_any(m_handle, m_params); // default values
+    
+    // set bit rate
+    unsigned int bit_rate = SAMPLE_RATE;
+    snd_pcm_hw_params_set_rate_near(m_handle, m_params, &bit_rate, &m_dir);
+
+    // mono ( 1 channel )
+    snd_pcm_hw_params_set_channels(m_handle, m_params, 1);
+   
+    // 16 frames per period
+    m_frames = 16;
+    snd_pcm_hw_params_set_period_size_near(m_handle, m_params, &m_frames, &m_dir);
+
+    // Use unsigned 8-bit format
+    // Because the first version of CWTrainer used OSS and unsigned 8-bit. 
+    snd_pcm_hw_params_set_format(m_handle, m_params, SND_PCM_FORMAT_U8);
+  #endif /* ALSA */
   BuildBuffers();
 }
 
@@ -131,8 +151,13 @@ CWSoundMachine::~CWSoundMachine()
 {
   delete [] m_ditbuffer;
   delete [] m_dahbuffer;
-
-  close(m_dsp);
+  #ifdef ALSA
+    snd_pcm_drain(m_handle);
+    snd_pcm_close(m_handle);
+  #endif /* ALSA */
+  #ifdef OSS
+    close(m_dsp);
+  #endif /* OSS */
 }
 
 void CWSoundMachine::AdjustSpeed(int speed)
@@ -170,6 +195,20 @@ void CWSoundMachine::PlayCWNote(const char *note)
     {
       int dur = note[i] == '.' ? m_ditlen : m_dahlen;
       unsigned char *buf = (note[i] == '.' ? m_ditbuffer : m_dahbuffer);
-      play_note(buf, m_dsp, dur+m_ditlen);
+      #ifdef ALSA
+      int return_value = snd_pcm_writei(m_handle, buf, (dur+m_ditlen)/8 );
+        if( return_value == -EPIPE)
+	{
+	     fprintf(stderr, "Sound error: underrun\n");
+	     snd_pcm_prepare(m_handle);
+	}
+	else if (return_value < 0)
+	{
+	     fprintf(stderr, "Sound error: %s\n", snd_strerror(return_value));
+	}
+      #endif /* ALSA */
+      #ifdef OSS
+        play_note(buf, m_dsp, dur+m_ditlen);
+      #endif /* OSS */
     }
 }

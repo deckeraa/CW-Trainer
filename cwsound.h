@@ -10,12 +10,29 @@
 #ifndef __CW__SOUND__H__
 #define __CW__SOUND__H__
 
+#define ALSA
+
+#ifdef ALSA
+   #include <alsa/asoundlib.h>
+#endif /* ALSA */
+
+#ifdef OSS
+#endif /* OSS */
+
 void makesound();
 
 class CWSoundMachine
 {
  private:
-  int m_dsp; //handle to dsp device
+  #ifdef OSS
+    int m_dsp; //handle to dsp device
+  #endif /* OSS */
+  #ifdef ALSA
+    snd_pcm_t *m_handle;
+    snd_pcm_hw_params_t *m_params;
+    int m_dir;
+    snd_pcm_uframes_t m_frames;
+  #endif /* ALSA */
   int m_speed;
   int m_freq;
   unsigned char *m_ditbuffer;
