@@ -95,23 +95,23 @@ CWSoundMachine::CWSoundMachine(int speed, int charspacelen, int freq) :
       perror("open of /dev/dsp failed");
       _exit(1);
     }
-  int value = AFMT_U8;
-  ioctl (m_dsp, SNDCTL_DSP_SETFMT, &value);
+    int value = AFMT_U8;
+    ioctl (m_dsp, SNDCTL_DSP_SETFMT, &value);
 
-  int n_fragments = 16; /* number of fragments */
-  int fragment_size = 8; /* a buffersize of 2^8 = 256 bytes */
+    int n_fragments = 16; /* number of fragments */
+    int fragment_size = 8; /* a buffersize of 2^8 = 256 bytes */
 
-  value = (n_fragments << 16) | fragment_size;
-  ioctl (m_dsp, SNDCTL_DSP_SETFRAGMENT, &value);
+    value = (n_fragments << 16) | fragment_size;
+    ioctl (m_dsp, SNDCTL_DSP_SETFRAGMENT, &value);
 
-  value = SAMPLE_RATE; /* frequency */
-  ioctl (m_dsp, SNDCTL_DSP_STEREO, &value);
+    value = SAMPLE_RATE; /* frequency */
+    ioctl (m_dsp, SNDCTL_DSP_STEREO, &value);
 
-  value = 8; /* number of bits */
-  ioctl (m_dsp, SNDCTL_DSP_SAMPLESIZE, &value);
+    value = 8; /* number of bits */
+    ioctl (m_dsp, SNDCTL_DSP_SAMPLESIZE, &value);
 
-  value = 0; /* mono = 0, stereo = 1 */
-  ioctl (m_dsp, SNDCTL_DSP_STEREO, &value);
+    value = 0; /* mono = 0, stereo = 1 */
+    ioctl (m_dsp, SNDCTL_DSP_STEREO, &value);
   #endif /* OSS */
 
   #ifdef ALSA
@@ -210,7 +210,7 @@ void CWSoundMachine::PlayCWNote(const char *note)
       buffers[0] = buf;
       #ifdef ALSA
       //int return_value = snd_pcm_writei(m_handle, buf, m_frames);
-      int return_value = snd_pcm_writen(m_handle, buffers, 2);
+      int return_value = snd_pcm_writen(m_handle, buffers, dur+m_ditlen);
         if( return_value == -EPIPE)
 	{
 	     fprintf(stderr, "Sound error: underrun\n");
