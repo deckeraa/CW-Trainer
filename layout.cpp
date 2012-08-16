@@ -58,6 +58,7 @@ MyWidget::MyWidget( QWidget *parent )/*{{{*/
   m_wpm->setRange(CODESPEED_MIN, CODESPEED_MAX);
   //m_wpm->setValue(20);
   m_wpm->setValue(CODESPEED_DEFAULT);
+  NewSpeed(CODESPEED_DEFAULT);
 
   connect(m_wpm, SIGNAL(valueChanged(int)),
 	  SLOT(NewSpeed(int)) );
@@ -74,6 +75,7 @@ MyWidget::MyWidget( QWidget *parent )/*{{{*/
   m_spacing->setRange(SPACING_MIN, SPACING_MAX);
   //m_spacing->setValue(20);
   m_spacing->setValue(SPACING_DEFAULT);
+  NewSpacing(SPACING_DEFAULT);
 
   connect(m_spacing, SIGNAL(valueChanged(int)),
 	  SLOT(NewSpacing(int)) );
