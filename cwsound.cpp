@@ -128,6 +128,9 @@ CWSoundMachine::CWSoundMachine(int speed, int charspacelen, int freq) :
     snd_pcm_hw_params_alloca(&m_params);
     snd_pcm_hw_params_any(m_handle, m_params); // default values
     
+    // don't interleave since we are only using one channel
+    snd_pcm_hw_params_set_access(m_handle, m_params, SND_PCM_ACCESS_RW_NONINTERLEAVED);
+
     // set bit rate
     unsigned int bit_rate = SAMPLE_RATE;
     snd_pcm_hw_params_set_rate_near(m_handle, m_params, &bit_rate, &m_dir);
@@ -142,6 +145,14 @@ CWSoundMachine::CWSoundMachine(int speed, int charspacelen, int freq) :
     // Use unsigned 8-bit format
     // Because the first version of CWTrainer used OSS and unsigned 8-bit. 
     snd_pcm_hw_params_set_format(m_handle, m_params, SND_PCM_FORMAT_U8);
+
+    // Now write the parameters to the driver
+    return_value = snd_pcm_hw_params( m_handle, m_params );
+    if ( return_value < 0)
+    {
+	 fprintf(stderr, "Couldn't set sound parameters :( \n\t%s\n", snd_strerror(return_value));
+	 _exit(1);
+    }
   #endif /* ALSA */
   BuildBuffers();
 }
@@ -195,8 +206,11 @@ void CWSoundMachine::PlayCWNote(const char *note)
     {
       int dur = note[i] == '.' ? m_ditlen : m_dahlen;
       unsigned char *buf = (note[i] == '.' ? m_ditbuffer : m_dahbuffer);
+      void *buffers[1];
+      buffers[0] = buf;
       #ifdef ALSA
-      int return_value = snd_pcm_writei(m_handle, buf, (dur+m_ditlen)/8 );
+      //int return_value = snd_pcm_writei(m_handle, buf, m_frames);
+      int return_value = snd_pcm_writen(m_handle, buffers, 2);
         if( return_value == -EPIPE)
 	{
 	     fprintf(stderr, "Sound error: underrun\n");
