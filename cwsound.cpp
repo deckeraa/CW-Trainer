@@ -210,7 +210,12 @@ void CWSoundMachine::PlayCWNote(const char *note)
       buffers[0] = buf;
       #ifdef ALSA
       //int return_value = snd_pcm_writei(m_handle, buf, m_frames);
-      int return_value = snd_pcm_writen(m_handle, buffers, dur+m_ditxlen);
+      int return_value;
+     while ((return_value = snd_pcm_writen(m_handle, buffers, dur+m_ditlen)) < 0) {
+          snd_pcm_prepare(m_handle);
+//          fprintf(stderr, "xrun !\n");
+      }
+     /*int return_value = snd_pcm_writen(m_handle, buffers, dur+m_ditlen);
         if( return_value == -EPIPE)
 	{
 	     fprintf(stderr, "Sound error: underrun\n");
@@ -219,7 +224,7 @@ void CWSoundMachine::PlayCWNote(const char *note)
 	else if (return_value < 0)
 	{
 	     fprintf(stderr, "Sound error: %s\n", snd_strerror(return_value));
-	}
+	     }*/
       #endif /* ALSA */
       #ifdef OSS
         play_note(buf, m_dsp, dur+m_ditlen);
