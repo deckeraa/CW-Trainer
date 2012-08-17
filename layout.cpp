@@ -383,6 +383,8 @@ void MyWidget::About()
 		  "\nKoch and Farnsworth adaptable Morse Code trainer."
 		  "\n\nBy John Wagner, N1QO and Jacob Anawalt, KD7YKO"
 		  "\nhttp://sourceforge.net/projects/cwtrainer"
+		  "\n\nQt4 and ALSA functionality by Aaron Decker"
+                  "\nhttp://github.com/deckeraa/CW-Trainer"
 		  "\nGPL - Uses code from GWFON's Koch CW Trainer"
 		  "\nSee README and LICENSE for more information");
 }
