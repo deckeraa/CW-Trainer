@@ -9,6 +9,9 @@ on the GPL.
 Initial release date is 2/15/2002 by John Wagner, N1QO -
 john@wagner-usa.net
 
+Ported to Qt4 and ALSA support added on 8/17/2012 by Aaron Decker,
+decker49@gmail.com
+
 The program uses some Source Code from Ray Goff, G4FON - notably the
 EncodeSineWave function. That code is used and released under the GPL
 by permission from Ray. It should also be noted that Ray gave me the 
@@ -51,8 +54,9 @@ It supports the Farnsworth method;
 Farnsworth Method Resources:
 Go to http://www.google.com/ - type in "farnsworth cw" - tons of pages
 
-Requires QT Version >= 3.x multi-thread library (Currently developed against 
-libqt3-mt-dev v3.3.4-3) and a Linux system with /dev/dsp sound support. 
+Requires QT Version 4. Both ALSA and OSS ( /dev/dsp ) are supported.
+For OSS change "#define ALSA" on line 13 of cwsound.h to "#define OSS".
+
 
 Building and running:
 
