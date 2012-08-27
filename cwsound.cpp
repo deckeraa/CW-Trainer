@@ -138,8 +138,8 @@ CWSoundMachine::CWSoundMachine(int speed, int charspacelen, int freq) :
     // mono ( 1 channel )
     snd_pcm_hw_params_set_channels(m_handle, m_params, 1);
    
-    // 16 frames per period
-    m_frames = 16;
+    // 128 frames per period, otherwise ALSA whines
+    m_frames = 128;
     snd_pcm_hw_params_set_period_size_near(m_handle, m_params, &m_frames, &m_dir);
 
     // Use unsigned 8-bit format
